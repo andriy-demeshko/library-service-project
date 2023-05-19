@@ -20,10 +20,3 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-
-    def borrowing_book(self):
-        if self.inventory > 0:
-            self.inventory -= 1
-            self.save()
-        else:
-            return "This book is not available"
