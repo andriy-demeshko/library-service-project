@@ -5,5 +5,5 @@ from borrowing.serializers import BorrowingReadSerializer
 
 
 class BorrowingViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Borrowing.objects.all()
+    queryset = Borrowing.objects.select_related("book", "user")
     serializer_class = BorrowingReadSerializer
