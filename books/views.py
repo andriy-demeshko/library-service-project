@@ -14,15 +14,6 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     permission_classes = (IsAdminOrReadOnly,)
 
-    def borrowing_book(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.inventory > 0:
-            instance.inventory -= 1
-            instance.save()
-            return Response({"message": "Book borrowed successfully."})
-        else:
-            return Response({"message": "This book is not available."})
-
     def get_serializer_class(self):
         if self.action == "list":
             return BookListSerializer
