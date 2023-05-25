@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins
+from rest_framework.permissions import IsAuthenticated
 
 from borrowing.models import Borrowing
 from borrowing.serializers import (
@@ -15,8 +16,11 @@ class BorrowingViewSet(
 ):
     queryset = Borrowing.objects.select_related("book", "user")
 
-    # def get_queryset(self):
-    #     return Borrowing.objects.filter(user=self.request.user)
+    def get_queryset(self):
+        if not self.request.user.is_staff:
+            return Borrowing.objects.filter(user=self.request.user)
+
+        return self.queryset
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
