@@ -24,10 +24,15 @@ class BorrowingViewSet(
             return queryset.filter(user=self.request.user)
 
         user_id = self.request.query_params.get("user_id")
+        is_active = self.request.query_params.get("is_active")
+
         if user_id:
             queryset = queryset.filter(user_id=user_id)
 
-        return queryset
+        if is_active:
+            queryset = queryset.filter(actual_return_date=None)
+
+        return queryset.distinct()
 
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
