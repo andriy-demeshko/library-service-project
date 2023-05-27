@@ -11,8 +11,6 @@ from books.models import Book
 from borrowing.models import Borrowing
 from borrowing.serializers import (
     BorrowingReadSerializer,
-    BorrowingCreateSerializer,
-    BorrowingReturnSerializer,
 )
 
 BORROWING_URL = reverse("borrowing:borrowing-list")
