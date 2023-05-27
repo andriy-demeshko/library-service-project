@@ -23,6 +23,14 @@ class BorrowingViewSet(
     serializer_class = BorrowingReadSerializer
     permission_classes = (IsAuthenticated,)
 
+    def get_permissions(self):
+        permission_classes = self.permission_classes
+
+        if self.action == "return_borrowing":
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
+
     def get_queryset(self):
         queryset = self.queryset
 
@@ -58,7 +66,6 @@ class BorrowingViewSet(
     @action(
         methods=["POST"],
         detail=True,
-        permission_classes=[IsAdminUser],
     )
     def return_borrowing(self, request, pk=None):
         borrowing = self.get_object()
